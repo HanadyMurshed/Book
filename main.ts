@@ -36,7 +36,9 @@ class Excersuxe1{
             s.pause();
     
             this.lineNumber += 1;
-            this.ProcessLine(line);
+            if(line != '')
+                this.ProcessLine(line);
+
     
     
     
