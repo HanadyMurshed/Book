@@ -1,9 +1,6 @@
 //npm install -g ts-node
 //npm install --save event-stream
-interface Mmemory{
 
-
-}
 
 class Excersuxe1{
     private fs = require('fs')
@@ -24,6 +21,10 @@ class Excersuxe1{
         });
 
     }
+    private ProcessLine(line : string ){
+
+
+    }
 
     ReadLineByLine(){
 
@@ -35,7 +36,7 @@ class Excersuxe1{
             s.pause();
     
             this.lineNumber += 1;
-            console.log(line);
+            this.ProcessLine(line);
     
     
     
@@ -54,4 +55,3 @@ class Excersuxe1{
 
 }
 let test: Excersuxe1 = new Excersuxe1();
-test.LaodStopWords();
