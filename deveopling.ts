@@ -84,7 +84,7 @@ class Excersuxe1{
 
                     var c = this.data[1][i];
                 if (this.data[2] == undefined){
-                    console.log("char  "+ c)
+                //    console.log("char  "+ c)
 
                     if (Excersuxe1.isLetter(c))// We found the start of a word
                       {this.data[2] = this.data[3];
@@ -93,7 +93,7 @@ class Excersuxe1{
                     if (!Excersuxe1.isLetter(c))
 
                         this.data[4]=false;
-                        this.data[5] = this.data[1].substring(this.data[2],this.data[3]).lower();
+                        this.data[5] = this.data[1].substring(this.data[2],this.data[3]).toLowerCase();
 
                         if (this.data[5].length >= 2 && this.data[0].includes(this.data[5])){
 
@@ -107,6 +107,8 @@ class Excersuxe1{
                                 this.lineNumber += 1;//for now not needed 
 
                                 this.data[6]=line;
+                                console.log("Hey");
+
                                 this.data[7] = Number(this.data[6].split(',')[1]);
                                 if (this.data[5] == this.data[6]){
                                     this.data[7] += 1;
@@ -123,6 +125,8 @@ class Excersuxe1{
                                 console.log('Error while reading file.', err);
                             })
                             .on('end', ()=>{
+                                console.log("finished");
+
                                 console.log(this.data[5]+","+ 1);
                                 if(!this.data[4]){
                                     //write on freq.txt 
