@@ -57,7 +57,7 @@ class Excersuxe1{
 //        this.touchOpen("CountFreq.txt");
         var wrtier = this.fs.createWriteStream('CountFreq.txt', {
             flags: 'a' // 'a' means appending (old data will be preserved)
-          })
+          });
         // stream s 
         var s = this.fs.createReadStream('Text Folder\\dummy.txt')
         .pipe(this.es.split())
@@ -69,23 +69,26 @@ class Excersuxe1{
 
             this.data[1]=line;
 
-            this.lineNumber =0;;//for now not needed 
+            //console.log("line read "+ this.data[1])
+            this.lineNumber =0;//for now not needed 
 
             //start line prossceing 
             if(this.data[1] == '') 
-             {return ;}
+             {return;}
             if (this.data[1][(this.data[1].length)-1] != '\n')
                {this.data[1]+= '\n'}
             this.data[2] = undefined;
             this.data[3] = 0;
 
-            for( var c in this.data[1]){
+                for (var i = 0; i < this.data[1].length; i++){
 
+                    var c = this.data[1][i];
                 if (this.data[2] == undefined){
+                    console.log("char  "+ c)
 
                     if (Excersuxe1.isLetter(c))// We found the start of a word
-                        this.data[2] = this.data[3];
-
+                      {this.data[2] = this.data[3];
+                      }  
                  }else{
                     if (!Excersuxe1.isLetter(c))
 
@@ -94,12 +97,12 @@ class Excersuxe1{
 
                         if (this.data[5].length >= 2 && this.data[0].includes(this.data[5])){
 
-                            var s = this.fs.createReadStream('Text Folder\\dummy.txt')
+                            var m = this.fs.createReadStream('CountFreq.txt')
                             .pipe(this.es.split())
                             .pipe(this.es.mapSync((line:string)=>{ //line is a problem 
                         
                                 // pause the readstream
-                                s.pause();
+                                m.pause();
                     
                                 this.lineNumber += 1;//for now not needed 
 
@@ -110,7 +113,7 @@ class Excersuxe1{
                                     this.data[4] = true;
                                 }else
                                  {
-                                    s.resume();
+                                    m.resume();
                                 }
          
                     
@@ -120,10 +123,12 @@ class Excersuxe1{
                                 console.log('Error while reading file.', err);
                             })
                             .on('end', ()=>{
+                                console.log(this.data[5]+","+ 1);
                                 if(!this.data[4]){
                                     //write on freq.txt 
                                     //create write streaem
                                     //withput string ormat 
+                                    
                                     wrtier.write(this.data[5]+","+ 1);
 
                                 }else {
