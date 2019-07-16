@@ -110,11 +110,13 @@ class Excersuxe1{
                     
                                 // resume the readstream, possibly from a callback
                             })
-                            .on('error', function(err: any){
+                            .on('error', (err: any)=>{
                                 console.log('Error while reading file.', err);
                             })
-                            .on('end', function(){
-                              //  if(!this.data[4]):
+                            .on('end', ()=>{
+                                if(!this.data[4]){
+                                    //write on freq.txt 
+                                }
                             })
                         );
 
