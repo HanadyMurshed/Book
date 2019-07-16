@@ -54,6 +54,7 @@ class Excersuxe1{
         this.InstiateData();
         this.touchOpen("CountFreq.txt");
 
+        // stream s 
         var s = this.fs.createReadStream('Text Folder\\dummy.txt')
         .pipe(this.es.split())
         .pipe(this.es.mapSync((line:string)=>{ //line is a problem 
@@ -126,10 +127,10 @@ class Excersuxe1{
             // resume the readstream, possibly from a callback
             s.resume();
         })
-        .on('error', function(err: any){
+        .on('error', (err: any)=>{
             console.log('Error while reading file.', err);
         })
-        .on('end', function(){
+        .on('end', ()=>{
             console.log('Read entire file.')
         })
     );
