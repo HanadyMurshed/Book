@@ -23,6 +23,17 @@ class Excersuxe1{
 
     }
 
+    private InstiateData(){
+        this.data[1]=[] // data[1] is line (max 80 characters)
+        this.data[2]= undefined// # data[2] is index of the start_char of word
+        this.data[3]=0 // # data[3] is index on characters, i = 0
+        this.data[4]= false // # data[4] is flag indicating if word was found
+        this.data[5]='' // # data[5] is the word
+        this.data[6]='' // # data[6] is word, NNNN
+        this.data[7]=0 // # data[7] is frequency
+
+    }
+
     static isLetter(str:string) {
         return str.length === 1 && str.match(/[a-z]/i);
     }
@@ -40,6 +51,7 @@ class Excersuxe1{
     ReadLineByLine(){
 
         this.LaodStopWords();
+        this.InstiateData();
         this.touchOpen("CountFreq.txt")
 
         var s = this.fs.createReadStream('Text Folder\\dummy.txt')
