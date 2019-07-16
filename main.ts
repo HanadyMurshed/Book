@@ -23,15 +23,25 @@ class Excersuxe1{
 
     }
 
-
-
     static isLetter(str:string) {
         return str.length === 1 && str.match(/[a-z]/i);
+    }
+
+    private touchOpen(filename:string){
+        try {
+             this.fs.unlinkSync(filename)
+         } catch(err) {}
+         this.fs.appendFile(filename, function (err:any) {
+            if (err) throw err;
+            console.log('Saved!');
+          }); 
     }
 
     ReadLineByLine(){
 
         this.LaodStopWords();
+        this.touchOpen("CountFreq.txt")
+
         var s = this.fs.createReadStream('Text Folder\\dummy.txt')
         .pipe(this.es.split())
         .pipe(this.es.mapSync((line:string)=>{ //line is a problem 
@@ -53,15 +63,22 @@ class Excersuxe1{
             this.data[3] = 0;
 
             for( var c in this.data[1]){
+
                 if (this.data[2] == undefined){
+
                     if (Excersuxe1.isLetter(c))// We found the start of a word
                         this.data[2] = this.data[3];
-                    }
-                else{
+
+                 }else{
                     if (!Excersuxe1.isLetter(c))
-                        this.data[1] = this.data[1] + '\n';
-                    }
-                }
+
+                        this.data[4]=false;
+                        this.data[5] = this.data[1].substring(this.data[2],this.data[3]).lower();
+
+                        if (this.data[5].length >= 2 && this.data[0].includes(this.data[5])){
+
+                        }          
+                }}
 
             // resume the readstream, possibly from a callback
             s.resume();
