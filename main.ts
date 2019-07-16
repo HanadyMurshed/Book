@@ -52,7 +52,7 @@ class Excersuxe1{
 
         this.LaodStopWords();
         this.InstiateData();
-        this.touchOpen("CountFreq.txt")
+        this.touchOpen("CountFreq.txt");
 
         var s = this.fs.createReadStream('Text Folder\\dummy.txt')
         .pipe(this.es.split())
@@ -88,6 +88,35 @@ class Excersuxe1{
                         this.data[5] = this.data[1].substring(this.data[2],this.data[3]).lower();
 
                         if (this.data[5].length >= 2 && this.data[0].includes(this.data[5])){
+
+                            var s = this.fs.createReadStream('Text Folder\\dummy.txt')
+                            .pipe(this.es.split())
+                            .pipe(this.es.mapSync((line:string)=>{ //line is a problem 
+                        
+                                // pause the readstream
+                                s.pause();
+                    
+                    
+                                this.data[6]=line;
+                                this.data[7] = Number(this.data[6].split(',')[1]);
+                                if (this.data[5] == this.data[6]){
+                                    this.data[7] += 1;
+                                    this.data[4] = true;
+                                }else
+                                 {
+                                    s.resume();
+                                }
+         
+                    
+                                // resume the readstream, possibly from a callback
+                            })
+                            .on('error', function(err: any){
+                                console.log('Error while reading file.', err);
+                            })
+                            .on('end', function(){
+                              //  if(!this.data[4]):
+                            })
+                        );
 
                         }          
                 }}
