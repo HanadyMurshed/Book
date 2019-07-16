@@ -53,7 +53,9 @@ class Excersuxe1{
         this.LaodStopWords();
         this.InstiateData();
         this.touchOpen("CountFreq.txt");
-
+        var wrtier = this.fs.createWriteStream('CountFreq.txt', {
+            flags: 'a' // 'a' means appending (old data will be preserved)
+          })
         // stream s 
         var s = this.fs.createReadStream('Text Folder\\dummy.txt')
         .pipe(this.es.split())
@@ -118,6 +120,7 @@ class Excersuxe1{
                                 if(!this.data[4]){
                                     //write on freq.txt 
                                     //create write streaem
+                                    wrtier.write("%20s,%04d\n",Number(this.data[5]), 1);
                                 }
                             })
                         );
