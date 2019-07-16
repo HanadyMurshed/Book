@@ -117,6 +117,7 @@ class Excersuxe1{
                             .on('end', ()=>{
                                 if(!this.data[4]){
                                     //write on freq.txt 
+                                    //create write streaem
                                 }
                             })
                         );

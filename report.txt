@@ -1,0 +1,18 @@
+Since we have 2 constraints 
+***naming
+***memory limit
+
+we are proccing line by line from a file to do that in typescript
+we have to deal with streams since it's the only way I ound to 
+laod strict amount of data from secondery to main memory.
+
+The fs mmodule provide a varuois method and functions to 
+deal tith streams (read streamd or write streams)
+
+they are useaffull to deal with big data since they cme as chunk of data 
++ stdin/stdout they implement streams 
+Streams write small amounts of data at a time. 
+While this has the disadvantage of being slower 
+because data is transferred in chunks, it has advantages 
+for RAM performance.
+//https://stackabuse.com/writing-to-files-in-node-js/
