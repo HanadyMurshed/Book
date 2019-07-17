@@ -60,108 +60,96 @@ class Excersuxe1 {
             flags: 'a' // 'a' means appending (old data will be preserved)
         });
         // stream s 
-        var s = this.fs.createReadStream('Text Folder\\dummy.txt')
-        //piping is taking one stream and feeding it to another
-        // stream but we han't used piping like this 
+        var inputStream = this.fs.createReadStream('Text Folder\\dummy.txt')
+            //piping is taking one stream and feeding it to another
+            // stream but we han't used piping like this 
             .pipe(this.es.split())
             .pipe(this.es.mapSync((line: string) => { //line is a problem 
 
                 // pause the readstream
-                s.pause();
+                inputStream.pause();
 
 
-                this.data[1] = line;
+                var countStream = this.fs.createReadStream('Text Folder\\dummy.txt')
+                    .pipe(this.es.split()) //split stream to break on newlines
+                    .pipe(this.es.mapSync((wordFreq: string) => { //turn this sync function into a stream
+                        countStream.pause();
 
-                //console.log("line read "+ this.data[1])
-                this.lineNumber = 0;//for now not needed 
+                        this.data[1] = line;
 
-                //start line prossceing 
-                if (this.data[1] == '') { return; }
-                if (this.data[1][(this.data[1].length) - 1] != '\n') { this.data[1] += '\n' }
-                this.data[2] = undefined;
-                this.data[3] = 0;
+                        //console.log("line read "+ this.data[1])
 
-                for (var i = 0; i < this.data[1].length; i++) {
-                    this.data[3] = i;
-                    var c = this.data[1][i];
-                    if (this.data[2] == undefined) {
-                        //    console.log("char  "+ c)
-                        if (Excersuxe1.isLetter(c))// We found the start of a word
-                        {
-                            this.data[2] = this.data[3];
-                            //console.log(c);
-                        }
-                    } else {
-                        if (!Excersuxe1.isLetter(c)) {
-                            this.data[4] = false;
-                            this.data[5] = this.data[1].substring(this.data[2], this.data[3]).toLowerCase();
-                            // console.log(this.data[2]+"  "+this.data[3]+" "+this.data[5] +!Excersuxe1.isLetter(c)+"  "+c);
-                            this.data[2] = undefined;
-                            if (this.data[5].length >= 2 && !this.data[0].includes(this.data[5])) {
+                        for (var i = 0; i < this.data[1].length; i++) {
+                            this.data[3] = i;
+                            var c = this.data[1][i];
+                            if (this.data[2] == undefined) {
+                                //    console.log("char  "+ c)
+                                if (Excersuxe1.isLetter(c))// We found the start of a word
+                                {
+                                    this.data[2] = this.data[3];
+                                    //console.log(c);
+                                }
+                            } else {
+                                if (!Excersuxe1.isLetter(c)) {
+                                    this.data[4] = false;
+                                    this.data[5] = this.data[1].substring(this.data[2], this.data[3]).toLowerCase();
+                                    // console.log(this.data[2]+"  "+this.data[3]+" "+this.data[5] +!Excersuxe1.isLetter(c)+"  "+c);
+                                    this.data[2] = undefined;
+                                    if (this.data[5].length >= 2 && !this.data[0].includes(this.data[5])) {
 
-                                console.log(this.data[5]+"Hey");
-
-                                // think of duplex (writeStream, readStream) 
-                                var m = this.fs.createReadStream('CountFreq.txt')
-                                    .pipe(this.es.split()) //split stream to break on newlines
-                                    .pipe(this.es.mapSync((line: string) => { //turn this sync function into a stream
-
+                                        // think of duplex (writeStream, readStream) 
                                         // pause the readstream manage flow
-                                        m.pause();
 
-                                        console.log(this.data[5]+"Hey")
-
-                                        this.lineNumber += 1;//for now not needed 
-
-                                        this.data[6] = line;
+                                        this.data[6] = wordFreq;
 
                                         this.data[7] = Number(this.data[6].split(',')[1]);
                                         if (this.data[5] == this.data[6]) {
                                             this.data[7] += 1;
                                             this.data[4] = true;
                                         } else {
-                                            m.resume();
-                                        }
-
-
-                                        // resume the readsStream, possibly from a callback
-                                    })
-                                        .on('error', (err: any) => {
-                                            console.log('Error while reading file.', err);
-                                        })
-                                        .on('end', () => {
-                                            console.log('inner Read entire file.')
-
+                                            console.log(3 + " " + this.data[5])
+                
                                             if (!this.data[4]) {
                                                 //write on freq.txt 
                                                 //create write streaem
                                                 //withput string ormat 
-
-                                             //   wrtier.write(this.data[5] + "," + 1 + '\n');
-
+                
+                                                wrtier.write(this.data[5] + "," + 1 + '\n');
+                
                                             } else {
                                                 // read and write the whle file is the only wway 
                                                 //I found for this sections I'll keep searching elittle 
-
-                                               // wrtier.write(this.data[5] + "," + this.data[7] + '\n', this.lineNumber);
-
+                
+                                                wrtier.write(this.data[5] + "," + this.data[7] + '\n', this.lineNumber);
+                
                                             }
-                                        })
-                                    );
-
+                                        }
+                                    }
+                                }
                             }
                         }
-                    }
-                }
+                        countStream.resume();
+
+                        // resume the readsStream, possibly from a callback
+                    })
+                        .on('error', (err: any) => {
+                            console.log('Error while reading file.', err);
+                        })
+                        .on('end', () => {
+                            inputStream.resume();
+
+                        })
+                    );
+
 
                 // resume the readstream, possibly from a callback
-                s.resume();
+                inputStream.resume();
             })
                 .on('error', (err: any) => {
                     console.log('Error while reading file.', err);
                 })
                 .on('end', () => {
-                    console.log('outer Read entire file.')
+                    console.log('Read entire file.')
                 })
             );
     }
