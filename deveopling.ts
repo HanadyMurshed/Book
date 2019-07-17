@@ -61,6 +61,8 @@ class Excersuxe1 {
         });
         // stream s 
         var s = this.fs.createReadStream('Text Folder\\dummy.txt')
+        //piping is taking one stream and feeding it to another
+        // stream but we han't used piping like this 
             .pipe(this.es.split())
             .pipe(this.es.mapSync((line: string) => { //line is a problem 
 
@@ -97,7 +99,7 @@ class Excersuxe1 {
                             this.data[2] = undefined;
                             if (this.data[5].length >= 2 && !this.data[0].includes(this.data[5])) {
 
-
+                                console.log(this.data[5]+"Hey");
 
                                 // think of duplex (writeStream, readStream) 
                                 var m = this.fs.createReadStream('CountFreq.txt')
@@ -107,7 +109,7 @@ class Excersuxe1 {
                                         // pause the readstream manage flow
                                         m.pause();
 
-                                        console.log(line)
+                                        console.log(this.data[5]+"Hey")
 
                                         this.lineNumber += 1;//for now not needed 
 
@@ -128,19 +130,20 @@ class Excersuxe1 {
                                             console.log('Error while reading file.', err);
                                         })
                                         .on('end', () => {
+                                            console.log('inner Read entire file.')
 
                                             if (!this.data[4]) {
                                                 //write on freq.txt 
                                                 //create write streaem
                                                 //withput string ormat 
 
-                                                wrtier.write(this.data[5] + "," + 1 + '\n');
+                                             //   wrtier.write(this.data[5] + "," + 1 + '\n');
 
                                             } else {
                                                 // read and write the whle file is the only wway 
                                                 //I found for this sections I'll keep searching elittle 
 
-                                                wrtier.write(this.data[5] + "," + this.data[7] + '\n', this.lineNumber);
+                                               // wrtier.write(this.data[5] + "," + this.data[7] + '\n', this.lineNumber);
 
                                             }
                                         })
@@ -158,7 +161,7 @@ class Excersuxe1 {
                     console.log('Error while reading file.', err);
                 })
                 .on('end', () => {
-                    console.log('Read entire file.')
+                    console.log('outer Read entire file.')
                 })
             );
     }
