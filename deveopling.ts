@@ -11,6 +11,10 @@ class Excersuxe1 {
     private es = require('event-stream');
     private data: any[] = [];
 
+
+    private count1: string = "freq.txt"
+    private count2: string = "hfreq.txt"
+
     constructor() { }
 
     Start() {
@@ -39,23 +43,11 @@ class Excersuxe1 {
         return str.length === 1 && Boolean(str.match(/^[0-9a-zA-Z]+$/));
     }
 
-    private touchOpen(filename: string) {
-        try {
-            this.fs.unlinkSync(filename)
-        } catch (err) { }
-        this.fs.appendFile(filename, function (err: any) {
-            if (err) throw err;
-            console.log('Saved!');
-        });
-    }
 
     private ReadLineByLine() {
 
         this.InstiateData();
-        //        this.touchOpen("CountFreq.txt");
-        var wrtier = this.fs.createWriteStream('freq.txt', {
-            flags: 'a' // 'a' means appending (old data will be preserved)
-        });
+
         // stream s 
         var inputStream = this.fs.createReadStream('Text Folder\\dummy.txt')
             //piping is taking one stream and feeding it to another
@@ -65,10 +57,10 @@ class Excersuxe1 {
 
                 // pause the readstream
                 inputStream.pause();
-               this.InstiateData();
+                this.InstiateData();
                 this.data[1] = line;
 
-                this.data[4]=[];
+                this.data[4] = [];
 
                 //console.log("line read "+ this.data[1])
 
@@ -94,15 +86,22 @@ class Excersuxe1 {
 
                                 this.data[7].push(0);
                                 this.data[4].push(this.data[5]);
-                               // think of duplex (writeStream, readStream) 
+                                // think of duplex (writeStream, readStream) 
                             }
                         }
                     }
                 }
-                this.data[1]=this.data[4];
-                this.data[4]=[];
+                this.data[1] = this.data[4];
+                this.data[4] = [];
 
-                var countStream = this.fs.createReadStream('freq.txt')
+
+                //this.touchOpen("CountFreq.txt");
+                this.fs.writeFile(this.count1, '', function(){console.log('done')})            ;
+                    var wrtier = this.fs.createWriteStream(this.count1, {
+                    flags: 'a' // 'a' means appending (old data will be preserved)
+                });
+
+                var countStream = this.fs.createReadStream(this.count2)
                     .pipe(this.es.split()) //split stream to break on newlines
                     .pipe(this.es.mapSync((line: string) => { //turn this sync function into a stream
 
@@ -110,24 +109,21 @@ class Excersuxe1 {
                         // pause the readstream manage flow
                         countStream.pause();
 
-    
-
-
                         var c = Number(line.split(',')[1]);
                         this.data[6] = (line.split(',')[0]);
-               
-                        console.log(this.data[7]);
-                        for(var i =0;i< this.data[1].length;i++){
-                            if (this.data[1][i] == this.data[6]) {
-                                this.data[7][i] = 1+c;
-                                this.data[4][i] = true;
-                                
-                            console.log(this.data[7])
-                            console.log(this.data[6]+">"+this.data[1][i])
 
+                        console.log(this.data[7]);
+                        var i = 0;
+                        for (; i < this.data[1].length; i++) {
+                            if (this.data[1][i] == this.data[6]) {
+                                this.data[4][i]=true;
+                                wrtier.write(this.data[1][i] + "," + (c+1) +'\n');
                                 break;
                             } 
                         }
+                        if(i==this.data[1].length && line!="" )
+                        wrtier.write(line+'\n');
+
 
                         // resume the readsStream, possibly from a callback
                         countStream.resume();
@@ -139,32 +135,24 @@ class Excersuxe1 {
                         .on('end', () => {
 
 
-                            for(var i =0;i< this.data[1].length;i++){
-                                if (this.data[4][i] == true) {
-                                     //write on freq.txt 
-                                    //create write streaem
-                                    //withput string ormat 
-                                    wrtier.seek(-50);
-    
-                                       wrtier.write(this.data[1][i] + "," + this.data[7][i] + '\n');
-    
-                                } else {
-                                    // read and write the whle file is the only wway 
-                                    //I found for this sections I'll keep searching elittle 
-    
+                            for (var i = 0; i < this.data[1].length; i++) {
+                                if (!this.data[4][i] ) {
                                     wrtier.write(this.data[1][i] + "," + 1 + '\n');
-    
+
                                 }
 
-                         
+                                var temp= this.count1 ;
+                                this.count1=this.count2;              
+                                this.count2 = temp;;
+
+                            }
+                            inputStream.resume();
+
                         }
-                        inputStream.resume();
-
-                    }
-                     ) );
+                        ));
 
 
-                    
+
                 // resume the readstream, possibly from a callback
             })
                 .on('error', (err: any) => {
