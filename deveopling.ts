@@ -9,12 +9,9 @@ import { stringify } from "querystring";
 class Excersuxe1 {
     private fs = require('fs')
     private es = require('event-stream');
-    private lineNumber: number = 0;
     private data: any[] = [];
 
     constructor() { }
-
-
 
     Start() {
         this.fs.readFile('Text Folder\\stopwords.txt', (err: any, data: any) => {
@@ -31,10 +28,10 @@ class Excersuxe1 {
         this.data[1] = [] // data[1] is line (max 80 characters)
         this.data[2] = undefined// # data[2] is index of the start_char of word
         this.data[3] = 0 // # data[3] is index on characters, i = 0
-        this.data[4] = false // # data[4] is flag indicating if word was found
+        this.data[4] = [] // line count
         this.data[5] = '' // # data[5] is the word
         this.data[6] = '' // # data[6] is word, NNNN
-        this.data[7] = 0 // # data[7] is frequency
+        this.data[7] = [] // # data[7] is frequency
 
     }
 
@@ -56,7 +53,7 @@ class Excersuxe1 {
 
         this.InstiateData();
         //        this.touchOpen("CountFreq.txt");
-        var wrtier = this.fs.createWriteStream('CountFreq.txt', {
+        var wrtier = this.fs.createWriteStream('freq.txt', {
             flags: 'a' // 'a' means appending (old data will be preserved)
         });
         // stream s 
@@ -68,11 +65,12 @@ class Excersuxe1 {
 
                 // pause the readstream
                 inputStream.pause();
-
+               this.InstiateData();
                 this.data[1] = line;
 
+                this.data[4]=[];
+
                 //console.log("line read "+ this.data[1])
-                this.lineNumber = 0;//for now not needed 
 
                 //start line prossceing 
                 if (this.data[1] == '') { return; }
@@ -89,70 +87,85 @@ class Excersuxe1 {
                         }
                     } else {
                         if (!Excersuxe1.isLetter(c)) {
-                            this.data[4] = false;
                             this.data[5] = this.data[1].substring(this.data[2], this.data[3]).toLowerCase();
                             // console.log(this.data[2]+"  "+this.data[3]+" "+this.data[5] +!Excersuxe1.isLetter(c)+"  "+c);
                             this.data[2] = undefined;
                             if (this.data[5].length >= 2 && !this.data[0].includes(this.data[5])) {
 
-                                console.log(1 + " " + this.data[5]);
-
-                                // think of duplex (writeStream, readStream) 
-
-                                var countStream = this.fs.createReadStream('Text Folder\\dummy.txt')
-                                    .pipe(this.es.split()) //split stream to break on newlines
-                                    .pipe(this.es.mapSync((line: string) => { //turn this sync function into a stream
-
-                                        // pause the readstream manage flow
-                                        countStream.pause();
-
-                                        console.log(2 + " " + this.data[5])
-
-                                        this.lineNumber += 1;//for now not needed 
-
-                                        this.data[6] = line;
-
-                                        this.data[7] = Number(this.data[6].split(',')[1]);
-                                        if (this.data[5] == this.data[6]) {
-                                            this.data[7] += 1;
-                                            this.data[4] = true;
-                                        } else {
-                                            countStream.resume();
-                                        }
-
-
-                                        // resume the readsStream, possibly from a callback
-                                    })
-                                        .on('error', (err: any) => {
-                                            console.log('Error while reading file.', err);
-                                        })
-                                        .on('end', () => {
-                                            console.log(3 + " " + this.data[5])
-                                            inputStream.resume();
-
-                                            if (!this.data[4]) {
-                                                //write on freq.txt 
-                                                //create write streaem
-                                                //withput string ormat 
-
-                                                //   wrtier.write(this.data[5] + "," + 1 + '\n');
-
-                                            } else {
-                                                // read and write the whle file is the only wway 
-                                                //I found for this sections I'll keep searching elittle 
-
-                                                // wrtier.write(this.data[5] + "," + this.data[7] + '\n', this.lineNumber);
-
-                                            }
-                                        })
-                                    );
-
+                                this.data[7].push(0);
+                                this.data[4].push(this.data[5]);
+                               // think of duplex (writeStream, readStream) 
                             }
                         }
                     }
                 }
+                this.data[1]=this.data[4];
+                this.data[4]=[];
+
+                var countStream = this.fs.createReadStream('freq.txt')
+                    .pipe(this.es.split()) //split stream to break on newlines
+                    .pipe(this.es.mapSync((line: string) => { //turn this sync function into a stream
+
+
+                        // pause the readstream manage flow
+                        countStream.pause();
+
+    
+
+
+                        var c = Number(line.split(',')[1]);
+                        this.data[6] = (line.split(',')[0]);
+               
+                        console.log(this.data[7]);
+                        for(var i =0;i< this.data[1].length;i++){
+                            if (this.data[1][i] == this.data[6]) {
+                                this.data[7][i] = 1+c;
+                                this.data[4][i] = true;
+                                
+                            console.log(this.data[7])
+                            console.log(this.data[6]+">"+this.data[1][i])
+
+                                break;
+                            } 
+                        }
+
+                        // resume the readsStream, possibly from a callback
+                        countStream.resume();
+
+                    })
+                        .on('error', (err: any) => {
+                            console.log('Error while reading file.', err);
+                        })
+                        .on('end', () => {
+
+
+                            for(var i =0;i< this.data[1].length;i++){
+                                if (this.data[4][i] == true) {
+                                     //write on freq.txt 
+                                    //create write streaem
+                                    //withput string ormat 
+                                    wrtier.seek(-50);
+    
+                                       wrtier.write(this.data[1][i] + "," + this.data[7][i] + '\n');
+    
+                                } else {
+                                    // read and write the whle file is the only wway 
+                                    //I found for this sections I'll keep searching elittle 
+    
+                                    wrtier.write(this.data[1][i] + "," + 1 + '\n');
+    
+                                }
+
+                         
+                        }
+                        inputStream.resume();
+
+                    }
+                     ) );
+
+
+                    
                 // resume the readstream, possibly from a callback
-                inputStream.resume();
             })
                 .on('error', (err: any) => {
                     console.log('Error while reading file.', err);
