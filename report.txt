@@ -2,17 +2,34 @@ Since we have 2 constraints
 ***naming
 ***memory limit
 
-we are proccing line by line from a file to do that in typescript
-we have to deal with streams since it's the only way I ound to 
-laod strict amount of data from secondery to main memory.
+first of all these two constraints don't mean faster processing but efficient resource handling.
+Actually this method may run slower since the data is fetched from the secondary memory 
+but it's still useful to deal with large file especially if the main memory was limited 
 
-The fs mmodule provide a varuois method and functions to 
-deal tith streams (read streamd or write streams)
+When search about dealing with affiliates reading/writing 
+the approach was to use readying method and readying / read file /write file
+but unfortunately these methods load the entire file to the main memory 
 
-they are useaffull to deal with big data since they cme as chunk of data 
-+ stdin/stdout they implement streams 
+so I had to search for another way. Which is streams I had to deal with retreads/wristwatches 
+so that I could process and load only a single line to the memory 
+
+they are usefully to deal with big data
 Streams write small amounts of data at a time. 
 While this has the disadvantage of being slower 
 because data is transferred in chunks, it has advantages 
 for RAM performance.
-//https://stackabuse.com/writing-to-files-in-node-js/
+
+But still since I created readjusted/writer's objects I couldn't write to the same file (update it)
+this problem emerged when I had to write the count to the freq.file 
+
+the alternative was costly
+- one solution is to load the whole file and process it as a string and use the replace method
+  and then write it again as a whole to the frq file. It's rejected 
+- a seconds approach WA to use duplex and transform streams since they are both read/write streams
+  but I din;t have the time to spend on learning how to deal with them
+- the ting I did is that I used 2 files stored in the secondary memory as freq and hfreq 
+  I processed the first one and wrote to the second and vice verse I was swapping between 
+  them by reading and writing operations. so that I don't need to laod nor the first one, neither the second to the main memory
+
+
+As: the restriction was about the ram only.
