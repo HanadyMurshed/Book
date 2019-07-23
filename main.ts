@@ -20,7 +20,7 @@ class Excersuxe1 {
 
     //start proccesing
     Start() {
-        this.fs.readFile('Text Folder\\stopwords.txt', (err: any, data: any) => {
+        this.fs.readFile('input\\stopwords.txt', (err: any, data: any) => {
             if (err) {
                 return console.error(err);
             }
