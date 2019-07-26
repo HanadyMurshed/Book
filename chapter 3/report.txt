@@ -1,0 +1,8 @@
+hmmm for this style of programming. I think it is not that attractive since the 
+monolithic devloping style means to develope that single long hard-to-understad code
+Moreover, when using this aprrouch, the whole code is tightly related and dependant, 
+so any error at any place will cause the whole system to collapse. 
+I would talk the oppisite approuch modular development is more stable
+at the end, the monolithic style may be good at developing really small chunk of codes
+but for a big system. I think it is catastrophic 
+spend some time at breaking the code into tasks is much usefull

@@ -1,0 +1,12 @@
+lorem,2
+dolor,3
+sit,2
+amet,2
+consectetuer,2
+adipiscing,1
+elit,1
+aenean,1
+ipsum,1
+commodo,1
+ligula,1
+eget,1
