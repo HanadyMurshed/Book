@@ -1,1 +1,9 @@
 Pipeline 
+no shared state 
+a function takes an input and gives some ouput 
+these functions are for sure Idempotance 
+
+** I don;t know if it is valid but i THINK Piplne style matches or can 
+be called a functional prgramming
+
+Yup I agree with the book he unit testing in this tpe of styling is much easier 
