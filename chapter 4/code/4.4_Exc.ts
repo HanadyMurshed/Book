@@ -1,3 +1,8 @@
+/**
+ * the only change was needed is to embty the word_count list befor start counting
+ */
+
+import { write, readFile } from "fs";
 
 let fs = require('fs');
 
@@ -10,7 +15,7 @@ function isLetter(str: string): Boolean {
 }
 
 
-function readFile(path: string) {
+function ReadFile(path: string) {
     data = fs.readFileSync(path).toString().split("");
 }
 
@@ -40,6 +45,7 @@ function findWords() {
 }
 
 function frequancies() {
+    words_count = [];
     for (var word in words) {
         let found =false
         for (var i=0;i<words_count.length;i++) {
@@ -61,7 +67,7 @@ function sort(){
 }
 
 function main() {
-    readFile('./input\\dummy.txt');
+    ReadFile('./input\\dummy.txt');
     fIlterChar();
     findWords();
     frequancies();
