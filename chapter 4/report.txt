@@ -2,8 +2,7 @@ Cookbook
 precedres change the shared state 
 in chapter 2 we used this type of programming 
 it's true we used only a stack as a shared state but we divieded the code into tasks and precedres
-It is  said theat precedres  don't return data they just edit a shared state and change it
-so I guess this's a differance between precedres and functioms  
+
 for this type of programming the major drawback is the idempotancy of the function since calling
 the function twice may not give the same output 
 
@@ -15,4 +14,7 @@ on it in a cumulative manner the output of each call will be differanct.
 the functional prgoramming is much better since it is idempotance it always gives the same output 
 for a given input and it won't face the problem of chaning a mutable state or data.
 
-**ask for aka procedures 
+**ask for aka procedures, side effect, when to use this style 
+
+for me 
+** scope of the shared state is a problem 

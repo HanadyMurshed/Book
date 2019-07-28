@@ -1,3 +1,5 @@
+import { write, readFile } from "fs";
+
 let fs = require('fs');
 
 let word_freq: [string, number][] = [];
