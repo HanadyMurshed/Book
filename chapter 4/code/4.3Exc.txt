@@ -1,0 +1,7 @@
+book code
+open : not 
+filter_chars_and_normalize : idem 
+scan : not
+remove stopr words : idem
+frequencies : not 
+sort : Idem
