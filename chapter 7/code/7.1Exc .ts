@@ -12,6 +12,7 @@
 
 
 function countRecursiv(words, count) {
+    // this is a tail recursion 
     if (words.length == 0)
         return count
 

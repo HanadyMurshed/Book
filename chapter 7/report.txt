@@ -1,1 +1,5 @@
 infinit mirror 
+first of all I loved the way they solved he problemm of 
+stackoverflow sinc they only sent the exact size of the stack 
+and for the tail recursion 
+we used it in our code before without knowing the effect it had for the number of calls 
