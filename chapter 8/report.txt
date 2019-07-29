@@ -1,0 +1,3 @@
+kick forward 
+hmmm enhanced pipline
+where the next function to be applied is put passed as a parameter and applied at the end of the current function
