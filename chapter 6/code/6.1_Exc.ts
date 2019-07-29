@@ -5,5 +5,4 @@ let count = words.reduce((total, word) => { (word in total) ? total[word] += 1 :
 let sorted = Object.keys(count).map(function (key) { return [key, count[key]]; }).sort((first, second) => {
     return second[1] - first[1];
 }).slice(0, 25);
-
 console.log(sorted)
