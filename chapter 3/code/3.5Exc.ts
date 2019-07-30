@@ -12,60 +12,61 @@ let start_word = undefined, end_word;
 
 let found: Boolean;
 
-//pages 
-for (var page = 0; page < lines.length / 45; page++) {
 
-    //lines 
-    for (var line in lines) {
+//lines 
+for (var line = 0; line < lines.length; line++) {
 
-        for (var idx = 0; idx < lines[line].length; idx++) {
+    let page = Math.round(line / 45);
 
-            if (start_word == undefined) {
 
-                if (Boolean(lines[line].charAt(idx).match(/^[0-9a-zA-Z]+$/)))
+    for (var idx = 0; idx < lines[line].length; idx++) {
 
-                    start_word = idx;
+        if (start_word == undefined) {
 
-            } else if (!Boolean(lines[line].charAt(idx).match(/^[0-9a-zA-Z]+$/))) {
+            if (Boolean(lines[line].charAt(idx).match(/^[0-9a-zA-Z]+$/)))
 
-                end_word = idx;
+                start_word = idx;
 
-                found = false;
+        } else if (!Boolean(lines[line].charAt(idx).match(/^[0-9a-zA-Z]+$/))) {
 
-                var idx2
+            end_word = idx;
 
-                let word = lines[line].substring(start_word, end_word);
+            found = false;
 
-                start_word = undefined;
+            var idx2
 
-                if (!(word in stop_words) && word.length > 2) {
+            let word = lines[line].substring(start_word, end_word);
 
-                    for (idx2 = 0; idx2 < word_index.length; idx2++) {
+            start_word = undefined;
 
-                        if (word_index[idx2][0] == word) {
+            if (!(word in stop_words) && word.length > 2) {
 
-                            found = true;
+                for (idx2 = 0; idx2 < word_index.length; idx2++) {
 
-                            if (!word_index[idx2][1].includes(page))
-                                word_index[idx2][1].push(page);
+                    if (word_index[idx2][0] == word) {
 
-                            break;
+                        found = true;
 
-                        }
+                        if (!word_index[idx2][1].includes(page))
+                            word_index[idx2][1].push(page);
+
+                        break;
+
                     }
-
-
-                    if (!found)
-
-                        word_index.push([word, [page]]);
-
-
-
                 }
+
+
+                if (!found)
+
+                    word_index.push([word, [page]]);
+
+
+
             }
         }
     }
 }
+
 
 
 for (var j = 0; j < word_index.length && j < 25; j++) {
