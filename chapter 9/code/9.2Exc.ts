@@ -5,7 +5,7 @@ function wrap(v) {
 }
 
 function bind(value, func) {
-    return func(value);
+    return func(value());
 }
 
 function read(path: string) {
