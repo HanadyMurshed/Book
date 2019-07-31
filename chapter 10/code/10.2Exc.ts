@@ -1,3 +1,4 @@
+
 import { NONAME } from "dns";
 
 class abstractExcersize {
@@ -103,16 +104,24 @@ class WordFrequancyController {
     }
     run() {
 
-
         var words = this.data_storage_manager.words()
         for (let w in words) {
             if (!this.stop_wods_manager.isStop(words[w]))
                 this.frequancy_manager.countWord(words[w])
         }
 
-        console.log(this.data_storage_manager.info(),
-            this.stop_wods_manager.info(),
-            this.frequancy_manager.info(),
+        console.log(this.data_storage_manager.info(), '\n',
+        /**
+         * the output is 
+         * DataStorageManager: My major data structure is a DataStorageManager
+         *  StopWordsManager: My major data structure is a StopWordsManager 
+         *  FrequancyManaer: My major data structure is a FrequancyManaer 
+         * 
+         * it is cuz the object was created using the derived class constructor and so 
+         * the constructor name will always be the same as derived 
+         */
+            this.stop_wods_manager.info(), '\n',
+            this.frequancy_manager.info(), '\n',
             this.frequancy_manager.sorted().slice(0, 25))
     }
 }
