@@ -35,7 +35,7 @@ let StopWordsManager = {
 
 let FrequancyManaer = {
 
-    word_count:[],
+    word_count: [],
 
     countWord(w: string) {
 

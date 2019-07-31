@@ -109,11 +109,7 @@ class WordFrequancyController {
             if (!this.stop_wods_manager.isStop(words[w]))
                 this.frequancy_manager.countWord(words[w])
         }
-
-        console.log(this.data_storage_manager.info(),
-            this.stop_wods_manager.info(),
-            this.frequancy_manager.info(),
-            this.frequancy_manager.sorted().slice(0, 25))
+        console.log(this.frequancy_manager.sorted().slice(0, 25))
     }
 }
 
