@@ -1,37 +1,64 @@
 import { NONAME } from "dns";
 
-class DataStorageManager {
+class abstractExcersize {
+
+    constructor() {
+
+        if (new.target == abstractExcersize)
+            throw new TypeError('Cannot be instantiated directly.');
+    }
+
+    info() {
+
+        return this.constructor.name
+
+    }
+}
+
+class DataStorageManager extends abstractExcersize {
 
     data: string;
 
     constructor(path: string) {
+        super();
         this.data = require('fs').readFileSync(path).toString();
         this.data = this.data.replace(/[\W_|]+/gi, " ");
 
+    }
+    info() {
+        return super.info() + ": My major data structure is a " + this.constructor.name
     }
 
     words() {
         return this.data.split(" ");
     }
 
+
 }
 
-class StopWordsManager {
+class StopWordsManager extends abstractExcersize {
     stopWords: string[];
     constructor(path: string) {
+        super()
         this.stopWords = require('fs').readFileSync(path).toString().split("\n");
     }
     isStop(w: string) {
         return this.stopWords.includes(w)
     }
+
+    info() {
+        return super.info() + ": My major data structure is a " + this.constructor.name
+    }
+
 }
 
-class FrequancyManaer {
+class FrequancyManaer extends abstractExcersize {
 
     word_count: [string, number][];
 
     constructor() {
 
+        super()
         this.word_count = []
     }
 
@@ -54,7 +81,13 @@ class FrequancyManaer {
             return second[1] - first[1];
         });
     }
+
+    info() {
+        return super.info() + ": My major data structure is a " + this.constructor.name
+    }
+
 }
+
 
 class WordFrequancyController {
 

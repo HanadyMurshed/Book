@@ -11,3 +11,5 @@ the wrapping proccess into 2 phases for example
 the first phase is when the wrap function is called 
 and a seconde when the actual data is needed
  in the bind function for example
+
+ I think I can also define several wrwappers snce the wrapping criterea may change from phase to phase 
