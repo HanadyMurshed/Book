@@ -12,3 +12,5 @@ the seconde line refers to interface I think
 now since typescript or even java script doesn't support abstract classes 
 but uses interfaces as the abstract unit used to define the structure of an entitiy 
 we are going to solve this problem using interfaces 
+
+I think this way of abstraction is realy clever, usefull and handy 

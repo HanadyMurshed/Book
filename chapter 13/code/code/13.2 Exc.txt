@@ -1,0 +1,5 @@
+in typescript it will produce a compile error that the required methoed is msssing in that defined class
+that make since since the interface define the structure of the object nd all the must have opration
+
+but for python and using tha ABS library I think the regester function will produce some error at the ruun time 
+i'l try running the python code 
