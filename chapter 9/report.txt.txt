@@ -1,4 +1,4 @@
-I think that his aprouch is better than that kick compostion since 
+The one I think that his aprouch is better than that kick compostion since 
 first you can use composition without changing the way the these functions were coded 
 second you can freely alter the order and remove some fuunctions from the chain of functions easlly
 

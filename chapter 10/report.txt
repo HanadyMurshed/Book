@@ -1,4 +1,4 @@
-thing 
+the thing 
 manager 
 controller
 
