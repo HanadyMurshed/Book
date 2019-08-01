@@ -45,7 +45,7 @@ class DataStorageManager(IDataStorage):
      def words(self):
          return self._data
 
-class StopWordManager(IStopWordFilterF):
+class StopWordManager(IStopWordFilter):
       _stop_words = []
       def __init__(self):
           with open('../stop_words.txt') as f:
@@ -55,7 +55,7 @@ class StopWordManager(IStopWordFilterF):
       def is_stop_word(self, word):
           return word in self._stop_words
 
-class WordFrequencyManager(IStopWordFilter):
+class WordFrequencyManager(IWordFrequencyCounter):
     _word_freqs = {}
 
      def increment_count(self, word):
