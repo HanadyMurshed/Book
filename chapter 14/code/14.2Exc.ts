@@ -62,8 +62,11 @@ class DataStorage {
         let words = this.data.split(' ');
         for (let w in words) {
             if (!this.stopWordFilter.isStop(words[w]))
-                for (let h in this.wordHnadler)
-                    this.wordHnadler[h](words[w])
+                this.wordHnadler[0](words[w])
+            else {
+                this.wordHnadler[1](words[w])
+
+            }
         }
     }
     registerWordHnadler(handler) {
@@ -101,7 +104,6 @@ class FreqCount {
         this.freq = [];
         daraStorag.registerWordHnadler(this.increament.bind(this))
         wfapp.RegisterForEnd(this.sort.bind(this))
-
         wfapp.RegisterForEnd(this.print.bind(this))
 
     }
@@ -127,9 +129,28 @@ class FreqCount {
         console.log("Result, \n", this.freq.slice(0, 25))
     }
 }
+class countZ {
+    count: number
+    constructor(wfapp: framework, daraStorag: DataStorage) {
+        this.count = 0;
+        daraStorag.registerWordHnadler(this.countZ.bind(this))
+        wfapp.RegisterForEnd(this.print.bind(this))
 
+    }
+    countZ(word: string) {
+        if (word.charAt(0) == 'z')
+            this.count += 1;
+
+    }
+    print() {
+        console.log("count of stop with z is ", this.count)
+    }
+
+}
 let f = new framework();
 let stop = new StopWords(f)
 let data = new DataStorage(f, stop)
 let freq = new FreqCount(f, data)
+let count = new countZ(f, data)
+
 f.run();

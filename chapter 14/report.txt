@@ -1,2 +1,4 @@
 hollywood
 call me maybe
+two entity e1,e2 instead of calling each itger directly
+they regester thier calls in an even handler and it will do the jop instead 
