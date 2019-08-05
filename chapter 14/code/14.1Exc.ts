@@ -30,6 +30,10 @@ class framework {
             this.loadEvenHandler[h]();
         }
         for (let w in this.doWrokEventHnadler) {
+<<<<<<< HEAD
+=======
+            console.log("work", this.doWrokEventHnadler[w])
+>>>>>>> f32827c27083fabe5955e7c1ce76f7e892663f3e
 
             this.doWrokEventHnadler[w]();
         }

@@ -1,4 +1,19 @@
 hollywood
 call me maybe
+<<<<<<< HEAD
 two entity e1,e2 instead of calling each itger directly
 they regester thier calls in an even handler and it will do the jop instead 
+=======
+
+14.1 Constraints
+
+    Larger problem is decomposed into entities using some form of abstraction (objects, modules or similar).
+    The entities are never called on directly for actions.
+    The entities provide interfaces for other entities to be able to register callbacks.
+    At certain points of the computation, the entities call on the other entities that have registered for callbacks
+
+event driven development 
+the eentitoes don't call ech other directly but like register thier calls 
+so that the callee can trigger some action at some point (when an event occurs) to the calling entity 
+the control is reversed between the calling and the callee 
+>>>>>>> f32827c27083fabe5955e7c1ce76f7e892663f3e
