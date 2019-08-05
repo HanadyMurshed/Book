@@ -19,7 +19,7 @@ function isStop(obj, w: string): Boolean {
 }
 
 function increment(obj, w: string) {
-    let found ;
+    let found;
     for (var word in obj['freq']) {
         let found = false
         if (obj['freq'][word][0] == w) {

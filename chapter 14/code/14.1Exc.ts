@@ -30,7 +30,7 @@ class framework {
             this.loadEvenHandler[h]();
         }
         for (let w in this.doWrokEventHnadler) {
-            console.log("work", this.loadEvenHandler[w])
+            console.log("work", this.doWrokEventHnadler[w])
 
             this.doWrokEventHnadler[w]();
         }
@@ -57,7 +57,6 @@ class DataStorage {
 
     read() {
         this.data = require('fs').readFileSync('./input\\dummy.txt').toString().replace(/[\W_|]+/gi, " ");
-        console.log(this.data);
     }
 
     words() {
@@ -87,7 +86,6 @@ class StopWords {
     readStop() {
         this.stopWordsList = require('fs').readFileSync('./input\\stopwords.txt').toString().split("\n");
 
-        console.log(this)
     }
     isStop(word: string): Boolean {
         for (let w in this.stopWordsList) {
