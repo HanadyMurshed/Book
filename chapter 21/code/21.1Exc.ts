@@ -1,15 +1,13 @@
 import { write, readFile } from "fs";
 
 let fs = require('fs');
-
+var assert = require('assert');
 
 
 function read(path: string) {
-    if (path == "") {
-        return [];
-    }
+    assert(path != "", "empty path")
     try {
-        return fs.readFileSync(path).toString().replace.replace(/[\W_|]+/gi, " ").split(" ");
+        return fs.readFileSync(path).toString().replace(/[\W_|]+/gi, " ").split(" ");
     } catch{
         console.log("error opening the words file")
         return [];
@@ -18,6 +16,7 @@ function read(path: string) {
 
 function removeStopeWord(words: string[]) {
 
+    assert(words != [], "I need words to process")
     let stopwords;
     try {
         stopwords = fs.readFileSync('./input\\stopwords.txt').toString().split(" ");
@@ -34,8 +33,7 @@ function removeStopeWord(words: string[]) {
 
 }
 function frequancies(words: string[]) {
-    if (words == [])
-        return [];
+    assert(words != [], "ëmpty list")
     let words_count: [string, number][] = [];
 
     for (let word in words) {
@@ -54,6 +52,9 @@ function frequancies(words: string[]) {
 }
 
 function sort(words_count: [string, number][]) {
+
+    if (words_count == [])
+        return []
     words_count.sort((first, second) => {
         return second[1] - first[1];
     });
@@ -62,9 +63,11 @@ function sort(words_count: [string, number][]) {
 
 function main() {
     let count_word = sort(frequancies(removeStopeWord(read('./input\\dummy.txt'))));
+    assert!((count_word instanceof Array), "OPS, not an array @_@ this is serious")
     for (let i = 0; i < count_word.length && i < 25; i++) {
         console.log(count_word[i]);
     }
+
 }
 
 main();
