@@ -14,7 +14,7 @@ on it in a cumulative manner the output of each call will be differanct.
 the functional prgoramming is much better since it is idempotance it always gives the same output 
 for a given input and it won't face the problem of chaning a mutable state or data.
 
-**ask for aka procedures, side effect, when to use this style 
+**ask for side effect, when to use this style 
 
 for me 
 ** scope of the shared state is a problem 
