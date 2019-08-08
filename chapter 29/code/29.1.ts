@@ -1,3 +1,6 @@
+import { write, readFile } from "fs";
+
+
 /**
  * this is async gunctions call it is far from
  *  threading but since threading is not allawed 
