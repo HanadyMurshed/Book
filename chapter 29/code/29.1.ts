@@ -94,7 +94,9 @@ class ThreadManager {
         for (let i = 0, d = 0; i < threadNumber; i++ , d += chunkSize) {
 
             this.Thread.push(new FakeThread(i,
+
                 this.data_space.slice(d, d + chunkSize),
+                
                 this.freq_space).start())
 
         }
