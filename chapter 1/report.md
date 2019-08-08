@@ -17,7 +17,7 @@ so that I could process and load only a single line to the memory
 
 #### challange 2 
 But still since I created readstream/writestream objects I couldn't write to the same file (update it) 
-while reading from it. This problem emerged when I had to write the count to the freq.file. Moreover to write a specfic place or postrion was really a problem since It's not supported with the way I used
+while reading from it. This problem emerged when I had to write the count to the freq.file. Moreover to write at a specfic place or postion was really a problem since It's not supported.
 
 #### solution 2
 
