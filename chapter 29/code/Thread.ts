@@ -24,13 +24,14 @@ class FakeThread {
 
 
     start() {
+
         return new Promise(resolve => {
 
             let freq = {};
 
             let word = "";
 
-            setInterval(() => {
+            var k = setInterval(() => {
 
                 if (this.words.length == 0) {
 
@@ -42,18 +43,22 @@ class FakeThread {
 
                     this.totalFreq.push(items);
 
-                    resolve('resolved');
-                }
+                    resolve();
 
-                word = this.words.pop();
-
-                if (word in freq) {
-
-                    freq[word] += 1
+                    clearInterval(k);
 
                 } else {
 
-                    freq[word] = 1
+                    word = this.words.pop();
+
+                    if (word in freq) {
+
+                        freq[word] += 1
+
+                    } else {
+
+                        freq[word] = 1
+                    }
                 }
             })
         })
@@ -79,10 +84,14 @@ class ThreadManager {
 
         this.Thread = [];
 
+
+        /**
+         * I chunked the data accros the workers it is not needed and can be removed 
+         */
         for (let i = 0, d = 0; i < threadNumber; i++ , d += chunkSize) {
 
-            this.Thread.push(new FakeThread(i, 
-                this.data_space.slice(d, d + chunkSize), 
+            this.Thread.push(new FakeThread(i,
+                this.data_space.slice(d, d + chunkSize),
                 this.freq_space).start())
 
         }
