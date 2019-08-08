@@ -1,8 +1,0 @@
-kick forward 
-hmmm enhanced pipline
-where the next function to be applied is put passed as a parameter and applied at the end of the current function
-I thinj this function compotion is so smart 
-callback hell which i suffered from in chapter 1 ^^ 
-still I thin that this way of calling and passing function is so clever 
-bc js is single threaded it uses this aprrouch so much to ensure the continouty 
-of the system when theere is some blocking i/o requests

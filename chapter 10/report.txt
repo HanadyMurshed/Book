@@ -1,6 +1,0 @@
-the thing 
-manager 
-controller
-
-abtract classes in JS doesn;t exist 
-if you want it. you have to code it yourself 
