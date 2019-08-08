@@ -1,3 +1,0 @@
-Passive agrassive 
-same as previoue 
-but for the xception handling it's done at one place in the main functio
