@@ -1,82 +1,79 @@
+/**
+ * this is async gunctions call it is far from
+ *  threading but since threading is not allawed 
+ * in js I took this approuch eventhough I'm not 
+ * Sgit staisfied with the code t all
+ */
+
 class FakeThread {
 
-    ms: number;
-
-    handledData: number;
+    tag: number;
 
     words: string[];
 
     totalFreq;
 
-    constructor(ms: number, handledData: number, words: string[], totalFreq) {
+    constructor(tag: number, words: string[], totalFreq) {
 
         this.totalFreq = totalFreq;
 
-        this.ms = ms;
-
-        this.handledData = handledData
+        this.tag = tag;
 
         this.words = words
     }
-    sleep(ms: number) {
 
-        return new Promise(resolve => setTimeout(resolve, ms));
 
-    }
+    start() {
+        return new Promise(resolve => {
 
-    async start() {
+            let freq = {};
 
-        let freq = {};
+            let word = "";
 
-        let proocced = this.handledData;
+            setInterval(() => {
 
-        for (let i = 0; this.words.length != 0; i++ , proocced--) {
+                if (this.words.length == 0) {
 
-            if (proocced = 0) {
+                    let items = Object.keys(freq).map(function (key) {
 
-                proocced = this.handledData;
+                        return [key, freq[key]];
 
-                this.sleep(this.ms)
+                    }, this.tag);
 
-            }
+                    this.totalFreq.push(items);
 
-            let word = this.words.pop();
+                    resolve('resolved');
+                }
 
-            if (word in freq) {
+                word = this.words.pop();
 
-                freq[word] += 1
+                if (word in freq) {
 
-            } else {
+                    freq[word] += 1
 
-                freq[word] = 1
-            }
-        }
+                } else {
 
-        var items = Object.keys(freq).map(function (key) {
-
-            return [key, freq[key]];
-
-        });
-
-        this.totalFreq.push(items);
+                    freq[word] = 1
+                }
+            })
+        })
     }
 }
 
+
 class ThreadManager {
 
-    Thread: FakeThread[];
+    Thread;
 
     freq_space;
 
-    data_space
+    data_space;
 
-    constructor(threadNumber: number, sleepTime: number) {
+    constructor(threadNumber: number) {
 
         this.data_space = require('fs').readFileSync('./input\\dummy.txt').toString().replace(/[\W_|]+/gi, " ").split(" ");
 
         let chunkSize = Math.round(this.data_space.length / threadNumber)
-
-        let paralilisemFactor = Math.round(chunkSize / 5)
 
         this.freq_space = [];
 
@@ -84,19 +81,17 @@ class ThreadManager {
 
         for (let i = 0, d = 0; i < threadNumber; i++ , d += chunkSize) {
 
-            this.Thread.push(new FakeThread(sleepTime, paralilisemFactor, this.data_space.slice(d, d + chunkSize), this.freq_space))
+            this.Thread.push(new FakeThread(i, 
+                this.data_space.slice(d, d + chunkSize), 
+                this.freq_space).start())
 
         }
 
     }
 
-    run() {
+    async run() {
 
-        for (let i in this.Thread) {
-
-            this.Thread[i].start();
-
-        }
+        await Promise.all(this.Thread);
 
         this.aggregate();
 
@@ -152,4 +147,4 @@ class ThreadManager {
 }
 
 
-new ThreadManager(5, 1000).run();
+new ThreadManager(5).run(); 
